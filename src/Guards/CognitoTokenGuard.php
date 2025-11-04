@@ -142,11 +142,9 @@ class CognitoTokenGuard extends TokenGuard
                     //Login the user into the token guard
                     $returnValue = $this->login($user);
                 } elseif ($this->challengeName) {
-                    //Get the key
-                    $key = $this->challengeData['session_token'];
-
-                    //Save the challenge data
-                    $this->setChallengeData($key);
+                    if (is_array($this->challengeData) && isset($this->challengeData['session_token']) && !empty($this->challengeData['session_token'])) {
+                        $this->setChallengeData($this->challengeData['session_token']);
+                    }
 
                     $returnValue = $this->challengeData;
                 } else {
